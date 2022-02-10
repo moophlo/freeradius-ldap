@@ -10,7 +10,8 @@ EXPOSE 1812/udp
 EXPOSE 1813/udp
 
 # Install freeradius with ldap support
-RUN yum -y install freeradius-ldap \
+RUN yum update -y
+RUN yum -y install freeradius freeradius-utils freeradius-mysql freeradius-perl freeradius-ldap \
         && yum -y update \
         && yum -y clean all
 
