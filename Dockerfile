@@ -1,7 +1,7 @@
 FROM centos:8
 MAINTAINER Moophlo <andrea.odorisio@gmail.com>
 
-ENTRYPOINT [ "/init" ]
+
 
 # RADIUS Authentication Messages
 EXPOSE 1812/udp
@@ -26,3 +26,5 @@ RUN curl -L https://github.com/krallin/tini/releases/download/${TINI_VERSION}/ti
 # Copy our configuration
 COPY ldap /etc/raddb/mods-available/
 COPY init /
+
+ENTRYPOINT [ "/init" ]
