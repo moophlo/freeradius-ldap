@@ -39,6 +39,11 @@ cd /etc/freeradius/3.0/mods-enabled
 ln -s ../mods-available/ldap
 
 apt -y install freeradius-ldap mariadb-server
+touch /var/run/mysqld/mysqld.sock
+touch /var/run/mysqld/mysqld.pid
+chown -R mysql:mysql /var/run/mysqld/mysqld.sock
+chown -R mysql:mysql /var/run/mysqld/mysqld.sock
+chmod -R 644 /var/run/mysqld/mysqld.sock
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | mysql_secure_installation
       # current root password (emtpy after installation)
     y # Set root password?
