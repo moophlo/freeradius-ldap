@@ -10,9 +10,9 @@ EXPOSE 1813/udp
 # Install freeradius with ldap support
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo 'deb http://www.linotp.org/apt/debian stretch linotp linotp-deps' > /etc/apt/sources.list.d/linotp.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 913DFF12F86258E5
 RUN apt update && apt dist-upgrade -y
 RUN apt-get install dirmngr -y
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 913DFF12F86258E5
 RUN apt -y install tini freeradius-ldap mariadb-server
 RUN mysql_secure_installation
 RUN apt-get install linotp -y
