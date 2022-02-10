@@ -35,8 +35,8 @@ chmod 640 /etc/freeradius/3.0/mods-available/*
 chown -R freerad: /etc/freeradius/3.0/mods-available/
 chmod 640 /etc/freeradius/3.0/sites-available/*
 chown -R freerad: /etc/freeradius/3.0/sites-available/
-#cd /etc/freeradius/3.0/mods-enabled
-#ln -s ../mods-available/ldap
+cd /etc/freeradius/3.0/mods-enabled
+ln -s ../mods-available/ldap
 
 
 # run freeradius
