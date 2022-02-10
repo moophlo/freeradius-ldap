@@ -1,8 +1,6 @@
 FROM ubuntu:focal
 MAINTAINER Moophlo <andrea.odorisio@gmail.com>
 
-
-
 # RADIUS Authentication Messages
 EXPOSE 1812/udp
 
