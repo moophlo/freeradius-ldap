@@ -31,7 +31,6 @@ ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
 ldap_subst "@LDAP_CLIENT_BASEDN@" "${LDAP_CLIENT_BASEDN}"
 
 # enable ldap
-#rm /etc/freeradius/3.0/mods-enabled/ldap
 cd /etc/freeradius/3.0
 ln -s ../mods-available/ldap .
 
