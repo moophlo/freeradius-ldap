@@ -19,5 +19,6 @@ COPY clients.conf /etc/freeradius/3.0/
 COPY inner-tunnel /etc/freeradius/3.0/sites-available/
 COPY default /etc/freeradius/3.0/sites-available/
 COPY init /
+RUN chmod +x /init
 
 ENTRYPOINT [ "/init" ]
