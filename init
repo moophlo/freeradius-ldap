@@ -57,8 +57,8 @@ use_distro_provided_file() {
 # Make sure we always start with the original distro-provided copies of
 # these files. On container restart, we will always repeat the same actions
 # on unmodified copies, allowing the process to be idempotent.
-use_distro_provided_file /etc/freeradius/3.0/sites-available/default
-use_distro_provided_file /etc/freeradius/3.0/clients.conf
+#use_distro_provided_file /etc/freeradius/3.0/sites-available/default
+#use_distro_provided_file /etc/freeradius/3.0/clients.conf
 
 # create a temporary file with the access rules so that sed can read
 # it into the correct place in the /etc/freeradius/3.0/sites-available/default file
@@ -66,12 +66,11 @@ use_distro_provided_file /etc/freeradius/3.0/clients.conf
 cat << 'EOF' > /root/ldap-radius-access-group
 # only allow access to a specific LDAP group
 if (Ldap-Group == "${LDAP_RADIUS_ACCESS_GROUP}") {
-  noop
+        noop
 }
 else {
-  reject
+        reject
 }
-fi
 EOF
 
 # configure the LDAP group for access
