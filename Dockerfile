@@ -14,7 +14,7 @@ RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
     sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
 
 RUN yum update -y
-RUN yum -y install freeradius freeradius-utils freeradius-mysql freeradius-perl freeradius-ldap \
+RUN yum -y install freeradius-ldap \
         && yum -y update \
         && yum -y clean all
 
