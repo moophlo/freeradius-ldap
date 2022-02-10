@@ -9,7 +9,6 @@ EXPOSE 1813/udp
 
 # Install freeradius with ldap support
 ENV DEBIAN_FRONTEND=noninteractive
-RUN timedatectl set-timezone Europe/Rome
 RUN apt update && apt dist-upgrade -y
 RUN apt -y install tini freeradius-ldap
 
