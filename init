@@ -1,6 +1,4 @@
 #!/bin/bash
-# vim: set ts=4 sts=4 sw=4 et:
-
 
 # run radiusd
-exec /usr/bin/tini -- /usr/sbin/radiusd $RADIUSD_ARGS
+exec /usr/bin/tini -- /usr/sbin/freeradius $RADIUSD_ARGS
