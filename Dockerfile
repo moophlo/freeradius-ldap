@@ -15,6 +15,9 @@ RUN apt -y install tini freeradius-ldap
 # Copy our configuration
 RUN rm -rf /etc/freeradius/3.0/mods-available/ldap
 COPY ldap /etc/freeradius/3.0/mods-available/
+COPY clients.conf /etc/freeradius/3.0/
+COPY inner-tunnel /etc/freeradius/3.0/sites-available/
+COPY default /etc/freeradius/3.0/sites-available/
 COPY init /
 
 ENTRYPOINT [ "/init" ]
