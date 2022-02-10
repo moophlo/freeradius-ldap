@@ -15,9 +15,6 @@ RUN echo 'deb http://www.linotp.org/apt/debian stretch linotp linotp-deps' > /et
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 913DFF12F86258E5
 RUN apt update && apt dist-upgrade -y
 RUN apt-get install dirmngr -y
-RUN apt -y install freeradius-ldap mariadb-server
-RUN mysql_secure_installation
-RUN apt-get install linotp -y
 RUN apt-get install wget linotp-adminclient-cli python-ldap freeradius python-passlib python-bcrypt git libio-all-lwp-perl libconfig-file-perl libtry-tiny-perl -y
 RUN wget http://ftp.us.debian.org/debian/pool/main/t/tini/tini_0.19.0-1_amd64.deb
 RUN dpkg -i tini_0.19.0-1_amd64.deb
