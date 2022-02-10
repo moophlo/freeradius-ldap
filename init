@@ -87,7 +87,7 @@ fi
 #    cat <<-'EOF' >> /etc/freeradius/3.0/clients.conf
 #client $CLIENT {
 #    secret = $SECRET
-à    shortname = $CLIENT
+#    shortname = $CLIENT
 #    ipaddr = $CLIENT
 #    nas_type = other
 #}
