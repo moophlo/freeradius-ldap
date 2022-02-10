@@ -12,7 +12,7 @@ RUN apt update && apt dist-upgrade -y
 RUN apt -y install tini freeradius-ldap \
 
 # Copy our configuration
-COPY ldap /etc/raddb/mods-available/
+COPY ldap /etc/freeradius/3.0/mods-available/
 COPY init /
 
 ENTRYPOINT [ "/init" ]
