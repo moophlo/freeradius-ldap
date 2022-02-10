@@ -31,6 +31,8 @@ ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
 ldap_subst "@LDAP_CLIENT_BASEDN@" "${LDAP_CLIENT_BASEDN}"
 
 # enable ldap
+chmod 640 /etc/freeradius/3.0/mods-available/ldap
+chown freerad: /etc/freeradius/3.0/mods-available/ldap
 #cd /etc/freeradius/3.0/mods-enabled
 #ln -s ../mods-available/ldap
 
@@ -93,4 +95,4 @@ EOF
 done
 
 # run radiusd
-exec /usr/bin/tini -- /usr/sbin/freeradius $RADIUSD_ARGS
+exec /usr/bin/tini -s -- /usr/sbin/freeradius $RADIUSD_ARGS
