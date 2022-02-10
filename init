@@ -74,7 +74,7 @@ else {
 EOF
 
 # configure the LDAP group for access
-if [[ -n "$LDAP_RADIUS_ACCESS_GROUP" ]]; then
+if [ -n "$LDAP_RADIUS_ACCESS_GROUP" ]; then
     sed -i -e '/^post-auth {$/r /root/ldap-radius-access-group' /etc/freeradius/3.0/sites-available/default
 fi
 
@@ -83,7 +83,7 @@ IFS=$',' read -ra RADIUS_CLIENT_CREDENTIALS_ARRAY <<< "$RADIUS_CLIENT_CREDENTIAL
 for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
     CLIENT="${i%%:*}"
     SECRET="${i#*:}"
-    cat << EOF >> /etc/freeradius/3.0/clients.conf
+    cat <<-'EOF' >> /etc/freeradius/3.0/clients.conf
 client $CLIENT {
     secret = $SECRET
     shortname = $CLIENT
