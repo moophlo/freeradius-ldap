@@ -17,7 +17,7 @@ RADIUS_CLIENT_CREDENTIALS="${RADIUS_CLIENT_CREDENTIALS:-}"
 RADIUSD_ARGS="${RADIUSD_ARGS:--f -l stdout}"
 
 ldap_subst() {
-    sed -i -e "s/${1}/${2}/g" /etc/raddb/mods-available/ldap
+    sed -i -e "s/${1}/${2}/g" /etc/freeradius/3.0/mods-available/ldap
 }
 
 # substitute variables into LDAP configuration file
@@ -31,18 +31,19 @@ ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
 ldap_subst "@LDAP_CLIENT_BASEDN@" "${LDAP_CLIENT_BASEDN}"
 
 # enable ldap
-#rm /etc/raddb/mods-enabled/ldap
-#ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/ldap2
+#rm /etc/freeradius/3.0/mods-enabled/ldap
+cd /etc/freeradius/3.0
+ln -s ../mods-available/ldap .
 
 # configure the default site for ldap
-sed -i -e 's/-ldap/ldap/g' /etc/raddb/sites-available/default
+sed -i -e 's/-ldap/ldap/g' /etc/freeradius/3.0/sites-available/default
 sed -i -e '/^#[[:space:]]*Auth-Type LDAP {$/{N;N;s/#[[:space:]]*Auth-Type LDAP {\n#[[:space:]]*ldap\n#[[:space:]]*}/        Auth-Type LDAP {\n                ldap\n        }/}' /etc/raddb/sites-available/default
-sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/raddb/sites-available/default
+sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/freeradius/3.0/sites-available/default
 
 # configure the inner-tunnel site for ldap
-sed -i -e 's/-ldap/ldap/g' /etc/raddb/sites-available/inner-tunnel
+sed -i -e 's/-ldap/ldap/g' /etc/freeradius/3.0/sites-available/inner-tunnel
 sed -i -e '/^#[[:space:]]*Auth-Type LDAP {$/{N;N;s/#[[:space:]]*Auth-Type LDAP {\n#[[:space:]]*ldap\n#[[:space:]]*}/        Auth-Type LDAP {\n                ldap\n        }/}' /etc/raddb/sites-available/inner-tunnel
-sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/raddb/sites-available/inner-tunnel
+sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/freeradius/3.0/sites-available/inner-tunnel
 
 use_distro_provided_file() {
     # copy the distro-provided file to a new location if it
@@ -55,13 +56,13 @@ use_distro_provided_file() {
 # Make sure we always start with the original distro-provided copies of
 # these files. On container restart, we will always repeat the same actions
 # on unmodified copies, allowing the process to be idempotent.
-use_distro_provided_file /etc/raddb/sites-available/default
-use_distro_provided_file /etc/raddb/clients.conf
+use_distro_provided_file /etc/freeradius/3.0/sites-available/default
+use_distro_provided_file /etc/freeradius/3.0/clients.conf
 
 # configure the LDAP group for access
 if [[ -n "$LDAP_RADIUS_ACCESS_GROUP" ]]; then
     # create a temporary file with the access rules so that sed can read
-    # it into the correct place in the /etc/raddb/sites-available/default file
+    # it into the correct place in the /etc/freeradius/3.0/sites-available/default file
     # WARNING: radiusd is INCREDIBLY picky about the format
     cat > /root/ldap-radius-access-group << EOF
         # only allow access to a specific LDAP group
@@ -74,7 +75,7 @@ if [[ -n "$LDAP_RADIUS_ACCESS_GROUP" ]]; then
 
 EOF
 
-    sed -i -e '/^post-auth {$/r /root/ldap-radius-access-group' /etc/raddb/sites-available/default
+    sed -i -e '/^post-auth {$/r /root/ldap-radius-access-group' /etc/freeradius/3.0/sites-available/default
 fi
 
 # setup clients
@@ -82,7 +83,7 @@ IFS=$',' read -ra RADIUS_CLIENT_CREDENTIALS_ARRAY <<< "$RADIUS_CLIENT_CREDENTIAL
 for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
     CLIENT="${i%%:*}"
     SECRET="${i#*:}"
-    cat >> /etc/raddb/clients.conf << EOF
+    cat >> /etc/freeradius/3.0/clients.conf << EOF
 client $CLIENT {
     secret = $SECRET
     shortname = $CLIENT
@@ -93,4 +94,4 @@ EOF
 done
 
 # run radiusd
-exec /usr/bin/tini -- /usr/sbin/radiusd $RADIUSD_ARGS
+exec /usr/bin/tini -- /usr/sbin/freeradius $RADIUSD_ARGS
