@@ -78,19 +78,38 @@ if [ -n "$LDAP_RADIUS_ACCESS_GROUP" ]; then
     sed -i -e '/^post-auth {$/r /root/ldap-radius-access-group' /etc/freeradius/3.0/sites-available/default
 fi
 
+#############################################################################################
 # setup clients
-IFS=$',' read -ra RADIUS_CLIENT_CREDENTIALS_ARRAY <<< "$RADIUS_CLIENT_CREDENTIALS"
-for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
-    CLIENT="${i%%:*}"
-    SECRET="${i#*:}"
-    cat <<-'EOF' >> /etc/freeradius/3.0/clients.conf
+#IFS=$',' read -ra RADIUS_CLIENT_CREDENTIALS_ARRAY <<< "$RADIUS_CLIENT_CREDENTIALS"
+#for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
+#    CLIENT="${i%%:*}"
+#    SECRET="${i#*:}"
+#    cat <<-'EOF' >> /etc/freeradius/3.0/clients.conf
+#client $CLIENT {
+#    secret = $SECRET
+à    shortname = $CLIENT
+#    ipaddr = $CLIENT
+#    nas_type = other
+#}
+#    EOF
+#done
+#############################################################################################
+
+# setup clients
+RADIUS_CLIENT_CREDENTIALS=172.18.199.162:X9xv5yT4Fp5CYUzz,172.18.201.110:X9xv5yT4Fp5CYUzz
+RADIUS_CLIENT_CREDENTIALS=`echo ${RADIUS_CLIENT_CREDENTIALS} | tr ',' '\n'`
+for i in "${RADIUS_CLIENT_CREDENTIALS[@]}"
+do
+    CLIENT=`echo $i|sed 's/:.*//g'`
+    SECRET=`echo $i|sed 's/.*://g'`
+    cat <<EOF >> /etc/freeradius/3.0/clients.conf
 client $CLIENT {
     secret = $SECRET
     shortname = $CLIENT
     ipaddr = $CLIENT
     nas_type = other
 }
-    EOF
+EOF
 done
 
 # run freeradius
