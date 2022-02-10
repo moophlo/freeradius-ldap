@@ -31,6 +31,7 @@ ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
 ldap_subst "@LDAP_CLIENT_BASEDN@" "${LDAP_CLIENT_BASEDN}"
 
 # enable ldap
+rm /etc/raddb/mods-enabled/ldap
 ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/ldap
 
 # configure the default site for ldap
