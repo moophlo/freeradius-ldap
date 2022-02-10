@@ -31,8 +31,8 @@ ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
 ldap_subst "@LDAP_CLIENT_BASEDN@" "${LDAP_CLIENT_BASEDN}"
 
 # enable ldap
-cd /etc/freeradius/3.0/mods-enabled
-ln -s ../mods-available/ldap
+#cd /etc/freeradius/3.0/mods-enabled
+#ln -s ../mods-available/ldap
 
 # configure the default site for ldap
 sed -i -e 's/-ldap/ldap/g' /etc/freeradius/3.0/sites-available/default
