@@ -39,7 +39,16 @@ cd /etc/freeradius/3.0/mods-enabled
 ln -s ../mods-available/ldap
 
 apt -y install freeradius-ldap mariadb-server
-mysql_secure_installation
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | mysql_secure_installation
+      # current root password (emtpy after installation)
+    y # Set root password?
+    4z3NEeHFGgXBb3ug # new root password
+    4z3NEeHFGgXBb3ug # new root password
+    y # Remove anonymous users?
+    y # Disallow root login remotely?
+    y # Remove test database and access to it?
+    y # Reload privilege tables now?
+EOF
 apt-get install linotp -y
 
 
