@@ -1,4 +1,4 @@
-FROM centos:8
+FROM ubuntu:focal
 MAINTAINER Moophlo <andrea.odorisio@gmail.com>
 
 
@@ -10,18 +10,8 @@ EXPOSE 1812/udp
 EXPOSE 1813/udp
 
 # Install freeradius with ldap support
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
-
-RUN yum update -y
-RUN yum -y install freeradius-ldap \
-        && yum -y update \
-        && yum -y clean all
-
-# Install tini init
-ENV TINI_VERSION v0.19.0
-RUN curl -L https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini > /usr/bin/tini \
-        && chmod +x /usr/bin/tini
+RUN apt update && apt dist-upgrade -y
+RUN apt -y install tini freeradius-ldap \
 
 # Copy our configuration
 COPY ldap /etc/raddb/mods-available/
