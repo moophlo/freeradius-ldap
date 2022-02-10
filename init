@@ -38,6 +38,10 @@ chown -R freerad: /etc/freeradius/3.0/sites-available/
 cd /etc/freeradius/3.0/mods-enabled
 ln -s ../mods-available/ldap
 
+apt -y install freeradius-ldap mariadb-server
+mysql_secure_installation
+apt-get install linotp -y
+
 
 # run freeradius
 exec /usr/bin/tini -s -- /usr/sbin/freeradius $RADIUSD_ARGS
