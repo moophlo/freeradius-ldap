@@ -65,7 +65,7 @@ if [[ -n "$LDAP_RADIUS_ACCESS_GROUP" ]]; then
     # create a temporary file with the access rules so that sed can read
     # it into the correct place in the /etc/freeradius/3.0/sites-available/default file
     # WARNING: radiusd is INCREDIBLY picky about the format
-    cat << EOF > /root/ldap-radius-access-group
+    cat << 'EOF' > /root/ldap-radius-access-group
         # only allow access to a specific LDAP group
         if (Ldap-Group == "${LDAP_RADIUS_ACCESS_GROUP}") {
             noop
@@ -73,6 +73,7 @@ if [[ -n "$LDAP_RADIUS_ACCESS_GROUP" ]]; then
         else {
             reject
         }
+        fi
     EOF
     sed -i -e '/^post-auth {$/r /root/ldap-radius-access-group' /etc/freeradius/3.0/sites-available/default
 fi
